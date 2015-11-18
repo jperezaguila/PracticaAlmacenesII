@@ -1,0 +1,29 @@
+﻿@model PracticaAlmacenes.Models.Almacen
+
+@{
+    ViewBag.Title = "Modificacion";
+}
+
+<h2>Modificacion de un Almacen</h2>
+@using (Html.BeginForm())
+{
+    //anti funcionara mientras que el atribute validate   [ValidateAntiForgeryToken]
+    @Html.AntiForgeryToken()
+    //lo que hace es los mensajes de error los coloca en la parte superior o inferior. Por defecto es true. 
+    @Html.ValidationSummary(false)
+    //lo que hace es que un campo se invisible, es este caso el id almacen sea oculto
+    @Html.HiddenFor(o=> o.idAlmacen)
+    <div>
+        @Html.LabelFor(o => o.nombre)
+        @Html.EditorFor(o => o.nombre)
+    </div>
+    <div>
+        @Html.LabelFor(o => o.ciudad)
+        @Html.EditorFor(o => o.codigo_postal)
+    </div>
+    <input type="submit" value="Guardar" class="btn-btn-default"/>
+
+
+
+}
+

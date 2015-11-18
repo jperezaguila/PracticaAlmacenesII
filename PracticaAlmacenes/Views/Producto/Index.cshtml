@@ -1,0 +1,34 @@
+﻿@model System.Collections.Generic.IEnumerable<PracticaAlmacenes.Models.Producto>
+
+@{
+    ViewBag.Title = "Index";
+   // var etiq = ViewBag.etiquetas as List<Producto>;
+}
+
+@*@foreach (var et in Model)
+{
+    <h3>@et.descripcion<h3/>
+}*@
+
+<h2>Listado de Productos</h2>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-4">
+        @Html.DisplayNameFor(o => o.nombre)
+        @Html.DisplayFor(o => item.nombre)
+        <br/>
+        <h3>Almacenes</h3>
+        @foreach (var alm in item.ProductosAlmacen)
+        {
+                @Html.Partial("_fichaAlmacen", alm.Almacen)
+        }
+
+        @*@Aqui tambien modificamos para que reemplace bien la direccion url 17-11*@
+
+        @Html.ActionLink("Ver ", "Detalle", new { nombre=item.nombre.Replace(" ", "_")})
+        
+    @*@Html.ActionLink("Ver ", "Detalle", new { id = item.idProducto })*@
+    </div>
+}
+

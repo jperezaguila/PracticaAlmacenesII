@@ -1,0 +1,47 @@
+﻿@model IEnumerable<PracticaAlmacenes.Models.Almacen>
+
+
+<h2>Detalle de Almacenes en España</h2>
+@foreach (var item in Model)
+
+//@html.ActionLink("Modificar", "Modificar", new {id=})
+//en  index:
+
+//@Html.Partial("_fichaAlmacen", alm.Almacen)
+
+{ <div class="col-md-3">
+        <h3>@Html.DisplayFor(o => item.nombre)</h3>
+        <p>
+            @Html.DisplayFor(o => item.ciudad)
+            @Html.DisplayFor(o => item.codigo_postal)
+
+        </p>
+        <br />
+      
+    @Html.ActionLink("Modificar ", "Modificacion", new { id = item.idAlmacen })
+
+        @Html.ActionLink("Borrar ", "Borrar", new { id = item.idAlmacen })
+        <a href="#" id="lnkdel">Borrar</a>
+        <p />
+    </div>
+
+    <script>
+        $("#lnkdel").click(function() {
+            var r = confirm("Estas Seguro?");
+            if (r) {
+                var id = $(this).attr("data - id");
+                location.href = "/Almacen/Borrar/" + id;
+
+            }
+        });
+    
+    </script>
+
+   
+    
+
+}
+
+    
+
+

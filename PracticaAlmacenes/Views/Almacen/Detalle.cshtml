@@ -1,0 +1,12 @@
+﻿@model PracticaAlmacenes.Models.Almacen
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<h2>Detalle de Almacenes en España</h2>
+
+<h3>@Model.idAlmacen</h3>
+<h3>@Model.nombre</h3>
+
+@Html.ActionLink("Volver", "Index")

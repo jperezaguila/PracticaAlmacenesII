@@ -1,0 +1,103 @@
+﻿@model System.Collections.Generic.IEnumerable<PracticaAlmacenes.Models.Producto>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Productos</h2>
+
+<input type="text" id="txtBusqueda" placeholder="Texto a buscar..." />
+<input type="button" id="btnBus" class="btn btn-info" value="Buscar"/>
+
+<button id="btnAdd" type="button" class="btn btn-info" data-toggle="modal" data-target="#dlgAdd">
+    Añadir
+</button>
+<div id="listado">
+    @Html.Partial("_listadoProducto", Model)
+</div>
+
+@*Copiado de Bootstrap Static Example, se suele colocar al final*@
+
+
+<div class="modal fade" id="dlgAdd">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @* data dissmis se usa para cerra el modal anterior, aria-label es *@
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                <h4 class="modal-title">Nuevo Producto</h4>
+            </div>
+            <div class="modal-body">
+                @*aqui se puede poner todo el contenido del formulario *@
+                <input type="text" id="txtNom" placeholder="Nombre" />
+                <br />
+                <input type="text" id="txtFab" placeholder="Fabricante" />
+                <br />
+                <input type="text" id="txtDesc" placeholder="Descripcion" />
+                <br />
+                <input type="text" id="txtCost" placeholder="Coste" />
+                <br />
+                <input type="text" id="txtVent" placeholder="Venta" />
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="btnGuardar" class="btn btn-primary">Guardar</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+@section MiJavascript
+{
+    <script>
+        function alta() {
+            var data = {
+                nombre: $("#txtNom").val(),
+                descripcion: $("#txtDesc").val(),
+                pcoste: $("#txtCost").val(),
+                pventa: $("#txtVent").val(),
+                fabricante: $("#txtFab").val(),
+                idCategoria: 1
+            };
+            var url = "@Url.Action("Alta")";
+            $.ajax({
+                url: url,
+                data: JSON.stringify(data),
+                type: "POST",
+                headers: { "Content-Type": "application/json" },
+                dataType: "json",
+                success: function(res) {
+                    if (res.idProducto > 0) {
+                        //console.log(res);
+
+                        $("#dlgAdd").modal('hide');
+                        $("#txtBusqueda").val("");
+                        listado();
+                        alert("Guardado");
+                        //volver a cargar
+                    } else {
+                        alert("Error al guardar");
+                    }
+                }
+            });
+
+        }
+
+        function listado() {
+            var url = "@Url.Action("Buscar")";
+            var txt = $("#txtBusqueda").val();
+            url += "?nombre=" + txt;
+            //de esta manera busca con espacios, transforma los %
+            $("#listado").load(encodeURI(url));
+        }
+
+        $("#btnGuardar").click(alta);
+
+        $("#btnBus").click(listado);
+    </script>
+}
